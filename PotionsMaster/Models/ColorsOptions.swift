@@ -1,4 +1,4 @@
-/// Copyright (c) 2022 Razeware LLC
+/// Copyright (c) 2023 Razeware LLC
 /// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -33,25 +33,24 @@
 import SwiftUI
 import RealmSwift
 
-/*
- Notes:
- 
- Object is a type alias to RealmSwiftObject. This is the class Realm uses to store data inside a realm. By subclassing Ingredient to it, you’re able to store this class in the database
- 
- @Persisted is a property wrapper like Core Data’s @NSManaged. It defines properties as managed by the Realm framework, allowing it to store their value.
-*/
+enum ColorOptions: String, CaseIterable, PersistableEnum {
 
-class Ingredient: Object, ObjectKeyIdentifiable {
-  @Persisted(primaryKey: true) var id: ObjectId
-  @Persisted var title = ""
-  @Persisted var notes = ""
-  @Persisted var quantity = 1
-  @Persisted var bought = false
-  @Persisted var colorOption = ColorOptions.green
-}
+  case green
+  case lightBlue
+  case lightRed
 
-extension Ingredient {
   var color: Color {
-    colorOption.color
+    Color(rawValue)
+  }
+
+  var title: String {
+    switch self {
+    case .green:
+      return "Green"
+    case .lightBlue:
+      return "Light Blue"
+    case .lightRed:
+      return "Light Red"
+    }
   }
 }

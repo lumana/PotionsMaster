@@ -37,6 +37,7 @@ struct AppMain: App {
   var body: some Scene {
     WindowGroup {
       ContentView()
+        .environment(\.realmConfiguration, RealmMigrator.configuration)
     }
   }
 }
