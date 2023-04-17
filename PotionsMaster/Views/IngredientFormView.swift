@@ -46,8 +46,7 @@ struct IngredientFormView: View {
   let quantityOptions = [1, 2, 3, 4, 5]
 
   var isUpdating: Bool {
-    // TODO: Mark as updating
-    return false
+    ingredient.realm != nil
   }
 
   var body: some View {
