@@ -35,10 +35,7 @@ import SwiftUI
 struct ContentView: View {
   var body: some View {
     NavigationView {
-      IngredientListView(
-        ingredients: IngredientMock.ingredientsMock,
-        boughtIngredients: IngredientMock.boughtIngredientsMock
-      )
+      IngredientListView()
     }
   }
 }

@@ -31,12 +31,25 @@
 /// THE SOFTWARE.
 
 import SwiftUI
+import RealmSwift
+
 
 struct IngredientListView: View {
   @State private var ingredientFormIsPresented = false
 
-  @State var ingredients: [Ingredient] = []
-  @State var boughtIngredients: [Ingredient] = []
+  /*
+   @ObservedResults is a property wrapper you can use to fetch and observe objects from a realm. This property fetches objects and returns a Results type, which is a type from Realm that represents a collection of objects retrieved from queries.
+  */
+  @ObservedResults(
+    Ingredient.self,
+    where: { $0.bought == false }
+  ) var ingredients
+
+  @ObservedResults(
+    Ingredient.self,
+    where: { $0.bought == true }
+  ) var boughtIngredients
+
 
   @ViewBuilder var newIngredientButton: some View {
     Button(action: openNewIngredient) {
