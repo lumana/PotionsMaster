@@ -31,11 +31,17 @@
 /// THE SOFTWARE.
 
 import SwiftUI
+import RealmSwift
+
 
 struct IngredientFormView: View {
   @Environment(\.dismiss) var dismiss
+  @Environment(\.realm) var realm // This environment property stores the default realm you use to store and fetch objects from the database.
 
-  @ObservedObject var ingredient: Ingredient
+  /*
+   ObservedRealmObject is a Realm property wrapper that behaves much like ObservedObject. You use it to observe changes to the state of Realm objects and update the view whenever the object changes.
+   */
+  @ObservedRealmObject var ingredient: Ingredient
 
   let quantityOptions = [1, 2, 3, 4, 5]
 
@@ -79,7 +85,12 @@ struct IngredientFormView: View {
 // MARK: - Actions
 extension IngredientFormView {
   func save() {
-    // TODO: Save ingredient
+    /*
+     Here, you start a write transaction by calling write(withoutNotifying:_:) on the Realm object. Each operation you make on a realm must be inside this write transaction block, including additions, deletions and updates. Inside the transaction, you add the new instance of Ingredient to Realm. Realm now stores the object and tracks its changes, making it a managed object.
+     */
+    try? realm.write {
+      realm.add(ingredient)
+    }
     dismiss()
   }
 }
