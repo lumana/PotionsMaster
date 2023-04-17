@@ -31,10 +31,11 @@
 /// THE SOFTWARE.
 
 import SwiftUI
+import RealmSwift
 
 struct IngredientRow: View {
   @State private var ingredientFormIsPresented = false
-  let ingredient: Ingredient
+  @ObservedRealmObject var ingredient: Ingredient //ObservedRealmObject to observe changes to an ingredient in the database and update the view when its properties change.
 
   var buttonImage: String {
     ingredient.bought ? "circle.inset.filled" : "circle"
@@ -65,6 +66,7 @@ struct IngredientRow: View {
           .resizable()
           .frame(width: 24, height: 24)
       }
+      .foregroundColor(ingredient.color)
     }
   }
 }
@@ -76,7 +78,9 @@ extension IngredientRow {
   }
 
   func toggleBought() {
-    // TODO: Toggle bought
+    $ingredient.bought.wrappedValue.toggle()
+    //This code toggles the bought property of that ingredient to true if the ingredient hasn’t been bought yet, or to false if the ingredient has already been bought.
+    //Notice the $ before the ingredient. Instead of calling write(withoutNotifying:_ :) to start a write transaction, you use $ in your Realm object to automatically start a write transaction and update the value of bought.
   }
 }
 
