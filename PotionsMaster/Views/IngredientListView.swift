@@ -83,6 +83,7 @@ struct IngredientListView: View {
         ForEach(boughtIngredients) { ingredient in
           IngredientRow(ingredient: ingredient)
         }
+        .onDelete(perform: $boughtIngredients.remove)
       } header: {
         Text("Bought")
       } footer: {
